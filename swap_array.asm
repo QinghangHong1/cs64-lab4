@@ -24,7 +24,6 @@ myArray:
 
 printArray:
         la $t0, myArray
-
         li $v0, 1
         lw $a0, 0($t0)
         syscall
@@ -138,7 +137,6 @@ main:
         syscall
 
         jal printArray
-        
         # Do swap function 
         jal doSwap
 
@@ -183,8 +181,24 @@ doSwap:
         #   x++
         #   y--
         # }
+	li $t0, 0 #start
+	li $t1, 8 #end
+	li $t2, 4
+	la $t3, myArray
 
-        # TODO: fill in the code
-
+loop:
+	beq $t0, $t2, end
+	sll $t4, $t0, 2
+	sll $t5, $t1, 2 
+	addu $t4, $t4, $t3 # address of start pointer
+	addu $t5, $t5, $t3 # address of end pointer
+	lw $t6, (0)$t4
+	lw $t7, (0)$t5
+	sw $t6, (0)$t5
+	sw $t7, (0)$t4
+	addi $t0, 1
+	addi $t1, -1
+	j loop
+end:
         # do not remove this last line
         jr $ra
